@@ -108,49 +108,80 @@ namespace TrashCollector.Controllers
         // POST: CustomersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,StreetNumber,StreetName,State,ZipCode,CollectionDay,AnotherCollectionDay,")]Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,StreetNumber,StreetName,State,ZipCode,CollectionDay,AnotherCollectionDay,StartDate,EndDate")]Customer customer)
         {
-            try
+            if (id != customer.Id)
             {
-                var customerFromDb = _context.Customers.Where(c => c.Id == id).FirstOrDefault();
-                customerFromDb.FirstName = customer.FirstName;
-                customerFromDb.LastName = customer.LastName;
-                customerFromDb.StreetNumber = customer.StreetNumber;
-                customerFromDb.StreetName = customer.StreetName;
-                customerFromDb.State = customer.State;
-                customerFromDb.ZipCode = customer.ZipCode;
-                _context.SaveChanges();
-
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            catch
+            if (ModelState.IsValid)
             {
-                return View();
+                try
+                {
+                    var customerFromDb = _context.Customers.Single(c => c.Id == customer.Id);
+                    customerFromDb.FirstName = customer.FirstName;
+                    customerFromDb.LastName = customer.LastName;
+                    customerFromDb.StreetNumber = customer.StreetNumber;
+                    customerFromDb.StreetName = customer.StreetName;
+                    customerFromDb.State = customer.State;
+                    customerFromDb.ZipCode = customer.ZipCode;
+                    customerFromDb.CollectionDay = customer.CollectionDay;
+                    customerFromDb.AnotherCollectionDay = customer.AnotherCollectionDay;
+                    customerFromDb.StartDate = customer.StartDate;
+                    customerFromDb.EndDate = customer.EndDate;
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CustomerExists(customer.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Details), new { id = customer.Id.ToString() });   
             }
+            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", customer.ApplicationUserId);
+            return View(customer.Id);
         }
 
         // GET: CustomersController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            var customers = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
-            return View(customers);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var customer = await _context.Customers.Include(c => c.IdentityUser).FirstOrDefaultAsync(m => m.Id == id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return View(customer);
+
+
+
         }
 
         // POST: CustomersController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, Customer customer)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            try
-            {
-                _context.Customers.Remove(customer);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var customer = await _context.Customers.FindAsync(id);
+            _context.Customers.Remove(customer);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
+        private bool CustomerExists(int id)
+        {
+            return _context.Customers.Any(c => c.Id == id);
+        }
+    
     }
 }
