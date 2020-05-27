@@ -36,8 +36,7 @@ namespace TrashCollector.Controllers
             }
 
             var customer = await _context.Customers.Include(c => c.IdentityUser).FirstOrDefaultAsync(m => m.Id == id);
-            ;
-
+            
             if (customer == null)
             {
                 return NotFound();
@@ -100,7 +99,7 @@ namespace TrashCollector.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdentityUser"] = new SelectList(_context.Users,"Id","Id", customer.IdentityUser);
+            ViewData["ApplicationUserId"] = new SelectList(_context.Users,"Id","Id", customer.ApplicationUserId);
 
             return View(customer);
 
@@ -109,7 +108,7 @@ namespace TrashCollector.Controllers
         // POST: CustomersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,StreetNumber,StreetName,State,ZipCode,CollectionDay,AnotherCollectionDay,")]Customer customer)
         {
             try
             {

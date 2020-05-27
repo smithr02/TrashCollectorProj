@@ -12,15 +12,54 @@ namespace TrashCollector.Models
     {
         [Key]
         public int Id { get; set; }
+        [Display(Name ="First Name")]
         public string FirstName { get; set; }
+
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
+
+        [Display(Name = "Street Number")]
         public string StreetNumber { get; set; }
+
+        [Display(Name = "Street Name")]
         public string StreetName { get; set; }
+
+        [Display(Name = "State")]
         public string State { get; set; }
+
+        [Display(Name = "Zip Code")]
         public string ZipCode { get; set; }
-        
-        public string CollectionDay { get; set; }
-        public string AnotherCollectionDay { get; set; }
+
+        [Display(Name = "Collection Day")]
+        public DayOfWeek? CollectionDay { get; set; }
+
+        [Display(Name = "One time additional pick up")]
+        public DayOfWeek? AnotherCollectionDay { get; set; }
+
+        [Display(Name = "Suspend Start Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? StartDate { get; set; }
+
+        [Display(Name = "Suspend End Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? EndDate { get; set; }
+
+        [Display(Name ="Confirm pickup date")]
+        [DataType(DataType.Date)]
+        public DateTime? ConfirmPickupDate { get; set; }
+
+        [Display(Name = "Confirm one time pickup date")]
+        [DataType(DataType.Date)]
+        public DateTime? ConfirmExtraPickUpDate { get; set; }
+
+        [Display(Name = "Balance")]
+        [DataType(DataType.Currency)]
+        public double Balance { get; set; }
+
+
+
 
         [ForeignKey("IdentityUser")]
 
