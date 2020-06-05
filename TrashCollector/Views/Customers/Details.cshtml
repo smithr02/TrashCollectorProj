@@ -11,10 +11,10 @@
     <h4>Customer</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt hidden class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Id)
         </dt>
-        <dd class = "col-sm-10">
+        <dd hidden class = "col-sm-10">
             @Html.DisplayFor(model => model.Id)
         </dd>
         <dt class = "col-sm-2">
@@ -58,13 +58,7 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.CollectionDay)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AnotherCollectionDay)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AnotherCollectionDay)
-        </dd>
+        </dd>        
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.StartDate)
         </dt>
@@ -82,23 +76,17 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ConfirmPickupDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ConfirmExtraPickUpDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ConfirmExtraPickUpDate)
-        </dd>
+        </dd>        
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Balance)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Balance)
         </dd>
-        <dt class = "col-sm-2">
+        <dt hidden class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ApplicationUserId)
         </dt>
-        <dd class = "col-sm-10">
+        <dd hidden class = "col-sm-10">
             @Html.DisplayFor(model => model.ApplicationUserId)
         </dd>
     </dl>

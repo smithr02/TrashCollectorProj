@@ -33,9 +33,6 @@ namespace TrashCollector.Models
         [Display(Name = "Collection Day")]
         public DayOfWeek? CollectionDay { get; set; }
 
-        [Display(Name = "One time additional pick up")]
-        public DayOfWeek? AnotherCollectionDay { get; set; }
-
         [Display(Name = "Suspend Start Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]
@@ -46,13 +43,9 @@ namespace TrashCollector.Models
         [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? EndDate { get; set; }
 
-        [Display(Name ="Confirm pickup date")]
+        [Display(Name ="Set a one time pickup date")]
         [DataType(DataType.Date)]
         public DateTime? ConfirmPickupDate { get; set; }
-
-        [Display(Name = "Confirm one time pickup date")]
-        [DataType(DataType.Date)]
-        public DateTime? ConfirmExtraPickUpDate { get; set; }
 
         [Display(Name = "Balance")]
         [DataType(DataType.Currency)]

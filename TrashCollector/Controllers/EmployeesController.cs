@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,18 @@ namespace TrashCollector.Controllers
         // GET: EmployeesController
         public ActionResult Index()
         {
+            Employee employee;
+            try
+            {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); //gets your nameIdentifer
+                employee = _context.Employees.Where(c => c.ApplicationUserId == userId).Single(); //gets a customer associated with the user
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("create"); //if fails then creates 
+            }
+
             var employees = _context.Employees.ToList();
             return View(employees);
         }
@@ -35,7 +48,8 @@ namespace TrashCollector.Controllers
         // GET: EmployeesController/Create
         public ActionResult Create()
         {
-            return View();
+            Employee employee = new Employee();
+            return View(employee);
         }
 
         // POST: EmployeesController/Create
@@ -45,6 +59,9 @@ namespace TrashCollector.Controllers
         {
             try
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); //associates the user with the employee
+                employee.ApplicationUserId = userId;
+
                 _context.Employees.Add(employee);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));

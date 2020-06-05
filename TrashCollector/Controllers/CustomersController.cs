@@ -61,7 +61,8 @@ namespace TrashCollector.Controllers
         public ActionResult Create()
         {
             Customer customer = new Customer();
-            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id");
+            List<DayOfWeek> dayOfWeek = new List<DayOfWeek>() { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday };
+            ViewData["DaysOfWeek"] = new SelectList(dayOfWeek, customer.CollectionDay);
             return View(customer);
         }
 
@@ -120,8 +121,7 @@ namespace TrashCollector.Controllers
                     customerFromDb.StreetName = customer.StreetName;
                     customerFromDb.State = customer.State;
                     customerFromDb.ZipCode = customer.ZipCode;
-                    customerFromDb.CollectionDay = customer.CollectionDay;
-                    customerFromDb.AnotherCollectionDay = customer.AnotherCollectionDay;
+                    customerFromDb.CollectionDay = customer.CollectionDay;                    
                     customerFromDb.StartDate = customer.StartDate;
                     customerFromDb.EndDate = customer.EndDate;
                     await _context.SaveChangesAsync();
