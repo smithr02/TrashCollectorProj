@@ -185,8 +185,6 @@ C:\Users\ryan_\Desktop\TrashCollector\TrashCollector\bin\Debug\netcoreapp3.1\run
 C:\Users\ryan_\Desktop\TrashCollector\TrashCollector\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\e_sqlite3.dll
 C:\Users\ryan_\Desktop\TrashCollector\TrashCollector\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\ryan_\Desktop\TrashCollector\TrashCollector\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\e_sqlite3.dll
-C:\Users\ryan_\Desktop\TrashCollector\TrashCollector\obj\Debug\netcoreapp3.1\Razor\Views\Customers\Create.cshtml.g.cs
-C:\Users\ryan_\Desktop\TrashCollector\TrashCollector\obj\Debug\netcoreapp3.1\Razor\Views\Customers\Edit.cshtml.g.cs
 C:\Users\ryan_\Desktop\TrashCollector\TrashCollector\obj\Debug\netcoreapp3.1\Razor\Views\Create.cshtml.g.cs
 C:\Users\ryan_\Desktop\TrashCollector\TrashCollector\obj\Debug\netcoreapp3.1\Razor\Views\Customers\Delete.cshtml.g.cs
 C:\Users\ryan_\Desktop\TrashCollector\TrashCollector\obj\Debug\netcoreapp3.1\Razor\Views\Employees\Create.cshtml.g.cs
@@ -194,3 +192,4 @@ C:\Users\ryan_\Desktop\TrashCollector\TrashCollector\obj\Debug\netcoreapp3.1\Raz
 C:\Users\ryan_\Desktop\TrashCollector\TrashCollector\obj\Debug\netcoreapp3.1\Razor\Views\Employees\Delete.cshtml.g.cs
 C:\Users\ryan_\Desktop\TrashCollector\TrashCollector\obj\Debug\netcoreapp3.1\Razor\Views\Employees\Details.cshtml.g.cs
 C:\Users\ryan_\Desktop\TrashCollector\TrashCollector\obj\Debug\netcoreapp3.1\Razor\Views\Customers\Details.cshtml.g.cs
+C:\Users\ryan_\Desktop\TrashCollector\TrashCollector\obj\Debug\netcoreapp3.1\Razor\Views\Customers\Create.cshtml.g.cs
