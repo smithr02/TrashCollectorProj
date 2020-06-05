@@ -35,8 +35,12 @@ namespace TrashCollector.Controllers
                 return RedirectToAction("create"); //if fails then creates 
             }
 
-            var applicationDbContext = _context.Customers.Include(c => c.IdentityUser);
-            return View(await applicationDbContext.ToListAsync());
+            var gettingPickUps = _context.PickUps.Where(p => p.CustomerId == customer.Id).ToList();
+            foreach (var item in gettingPickUps)
+            {
+                customer.Balance += 20;
+            }
+            return View(customer);
         }
 
         // GET: CustomersController/Details/5
