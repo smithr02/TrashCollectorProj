@@ -31,7 +31,7 @@ namespace TrashCollector.Models
         public string ZipCode { get; set; }
 
         [Display(Name = "Collection Day")]
-        public DayOfWeek? CollectionDay { get; set; }
+        public DayOfWeek CollectionDay { get; set; }
 
         [Display(Name = "Suspend Start Date")]
         [DataType(DataType.Date)]

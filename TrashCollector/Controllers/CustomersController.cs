@@ -65,8 +65,13 @@ namespace TrashCollector.Controllers
         public ActionResult Create()
         {
             Customer customer = new Customer();
-            List<DayOfWeek> dayOfWeek = new List<DayOfWeek>() { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday };
-            ViewData["DaysOfWeek"] = new SelectList(dayOfWeek, customer.CollectionDay);
+            List<DayOfWeek> dayOfWeek = new List<DayOfWeek>();
+            dayOfWeek.Add(DayOfWeek.Monday);
+            dayOfWeek.Add(DayOfWeek.Tuesday);
+            dayOfWeek.Add(DayOfWeek.Wednesday);
+            dayOfWeek.Add(DayOfWeek.Thursday);
+            dayOfWeek.Add(DayOfWeek.Friday);
+            ViewBag.DaysOfWeek = new SelectList(dayOfWeek, customer.CollectionDay);
             return View(customer);
         }
 
@@ -86,21 +91,17 @@ namespace TrashCollector.Controllers
         }
 
         // GET: CustomersController/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public async Task<ActionResult> Edit()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var customer = await _context.Customers.FindAsync(id);
-
-            if (customer == null)
-            {
-                return NotFound();
-            }
-            ViewData["ApplicationUserId"] = new SelectList(_context.Users,"Id","Id", customer.ApplicationUserId);
-
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Customer customer = _context.Customers.Where(c => c.ApplicationUserId == userId).Single();
+            List<DayOfWeek> dayOfWeek = new List<DayOfWeek>();
+            dayOfWeek.Add(DayOfWeek.Monday);
+            dayOfWeek.Add(DayOfWeek.Tuesday);
+            dayOfWeek.Add(DayOfWeek.Wednesday);
+            dayOfWeek.Add(DayOfWeek.Thursday);
+            dayOfWeek.Add(DayOfWeek.Friday);
+            ViewBag.DaysOfWeek = new SelectList(dayOfWeek, customer.CollectionDay);
             return View(customer);
 
         }
@@ -118,7 +119,8 @@ namespace TrashCollector.Controllers
             {
                 try
                 {
-                    var customerFromDb = _context.Customers.Single(c => c.Id == customer.Id);
+                    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    Customer customerFromDb = _context.Customers.Where(c => c.ApplicationUserId == userId).Single();
                     customerFromDb.FirstName = customer.FirstName;
                     customerFromDb.LastName = customer.LastName;
                     customerFromDb.StreetNumber = customer.StreetNumber;
