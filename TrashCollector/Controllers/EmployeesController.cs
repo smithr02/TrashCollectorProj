@@ -33,15 +33,44 @@ namespace TrashCollector.Controllers
 
                 return RedirectToAction("create"); //if fails then creates 
             }
-
-            var employees = _context.Employees.ToList();
-            return View(employees);
+            List<Customer> customers = _context.Customers.Where(c => c.CollectionDay == DateTime.Now.DayOfWeek && c.StartDate > DateTime.Now.Date && c.EndDate < DateTime.Now.Date && c.ZipCode == employee.ZipCode).ToList();
+            List<Customer> customers1 = _context.Customers.Where(c => c.ConfirmPickupDate == DateTime.Now.Date && c.ZipCode == employee.ZipCode).ToList();
+            customers.AddRange(customers1);
+            // add a viewbag of select list of days
+            //in employee index add a div that uses the selectlist to choose a day to show of a list of pickups for that day
+            return View(customers);
         }
 
+        public ActionResult Index(DayOfWeek day)
+        {
+            Employee employee;
+            try
+            {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); //gets your nameIdentifer
+                employee = _context.Employees.Where(c => c.ApplicationUserId == userId).Single(); //gets a customer associated with the user
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("create"); //if fails then creates 
+            }
+            List<Customer> customers = _context.Customers.Where(c => c.CollectionDay == 
+            // add a viewbag of select list of days
+            //in employee index add a div that uses the selectlist to choose a day to show of a list of pickups for that day
+            return View(customers);
+        }
+        public void ConfirmPickUp(int id)
+        {
+            Customer customer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+            PickUp pickup = new PickUp();
+            pickup.CustomerId = customer.Id;
+            _context.PickUps.Add(pickup);
+            _context.SaveChanges();
+        }
         // GET: EmployeesController/Details/5
         public ActionResult Details(int id)
         {
-            var employees = _context.Employees.Where(e => e.Id == id).SingleOrDefault();
+            var employees = _context.Customers.Where(e => e.Id == id).SingleOrDefault();
             return View(employees);
         }
 
