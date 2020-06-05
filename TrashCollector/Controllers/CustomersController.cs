@@ -23,6 +23,18 @@ namespace TrashCollector.Controllers
         // GET: CustomersController
         public async Task<IActionResult> Index()
         {
+            Customer customer;
+            try
+            {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); //gets your nameIdentifer
+                customer = _context.Customers.Where(c => c.ApplicationUserId == userId).Single(); //gets a customer associated with the user
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("create"); //if fails then creates 
+            }
+
             var applicationDbContext = _context.Customers.Include(c => c.IdentityUser);
             return View(await applicationDbContext.ToListAsync());
         }
@@ -56,33 +68,16 @@ namespace TrashCollector.Controllers
         // POST: CustomersController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,StreetNumber,StreetName,State,ZipCode,CollectionDay, ApplicationUserId")] Customer customer)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,StreetNumber,StreetName,State,ZipCode,CollectionDay,ApplicationUserId")] Customer customer)
         {
             if (ModelState.IsValid)
-            {
-                if (customer.Id == 0)
-                {
+            {                
                     var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                     customer.ApplicationUserId = userId;
-                    _context.Customers.Add(customer);
-                }
-                else
-                {
-                    var customerInDB = _context.Customers.Single(c => c.Id == customer.Id);
-                    customerInDB.FirstName = customer.FirstName;
-                    customerInDB.LastName = customer.LastName;
-                    customerInDB.StreetNumber = customer.StreetNumber;
-                    customerInDB.StreetName = customer.StreetName;
-                    customerInDB.ZipCode = customer.ZipCode;
-                    customerInDB.CollectionDay = customer.CollectionDay;
-                    
-                }
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Details), new { id = customer.Id.ToString() });
+                    _context.Customers.Add(customer);                                                  
             }
-
-            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", customer.ApplicationUserId);
-            return View(customer.Id);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");                          
         }
 
         // GET: CustomersController/Edit/5
