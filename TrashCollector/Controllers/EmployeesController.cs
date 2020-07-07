@@ -54,7 +54,9 @@ namespace TrashCollector.Controllers
 
                 return RedirectToAction("create"); //if fails then creates 
             }
-            List<Customer> customers = _context.Customers.Where(c => c.CollectionDay == 
+            List<Customer> customers = _context.Customers.Where(c => c.CollectionDay == DateTime.Now.DayOfWeek && c.StartDate > DateTime.Now.Date && c.EndDate < DateTime.Now.Date && c.ZipCode == employee.ZipCode).ToList();
+            List<Customer> customers1 = _context.Customers.Where(c => c.ConfirmPickupDate == DateTime.Now.Date && c.ZipCode == employee.ZipCode).ToList();
+            customers.AddRange(customers1);
             // add a viewbag of select list of days
             //in employee index add a div that uses the selectlist to choose a day to show of a list of pickups for that day
             return View(customers);
